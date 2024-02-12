@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebGL 2D Graphic Point Demo</title>
+    <canvas id="webgl" width="1000px" height="500px" style="background-color: blue;">\</canvas>
+</head>
+<body>
+        <script>
+            // Get WebGL context from canvas
+            var canvas = document.getElementById('webgl');
+            var gl = canvas.getContext('webgl');
+    
+    
+            // Define VertaxShaders
+            var vertexShaderCode = `
+                void main() {
+                    gl_PointSize = 100.0; 
+                    gl_Position = vec4(1.0, 0.0, 1.0, 1.0);
+                }
+            `;
+            // Define FragmentShaders
+            var fragmentShaderCode = `
+                void main() {
+                    gl_FragColor = vec4(1.0, 1.0, 0.0, 1.0); // Red, Yellow: vec4(1.0, 1.0, 0.0, 1.0), Blue: vec4(0.0, 0.0, 1.0, 1.0)
+                }
+            `;
+    
+            // Define a function for basics
+            function initShader(gl, vertexShaderCode, fragmentShaderCode){
+                // Compile Shaders
+                var vertexShader = gl.createShader(gl.VERTEX_SHADER);
+                gl.shaderSource(vertexShader, vertexShaderCode);
+                gl.compileShader(vertexShader)
+
+                var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+                gl.shaderSource(fragmentShader, fragmentShaderCode);
+                gl.compileShader(fragmentShader);
+
+                // Create a program
+                var program = gl.createProgram();
+
+                // Attach shaders on the program 
+                gl.attachShader(program, vertexShader);
+                gl.attachShader(program, fragmentShader);
+                gl.linkProgram(program);
+                gl.useProgram(program);
+
+                return program; 
+            }
+            // Initialize shaders
+            var program = initShader(gl, vertexShaderCode, fragmentShaderCode)
+            gl.drawArrays(gl.POINTS,0,1)
+            
+
+            
+        </script>
+    </>
+    
+</body>
+</html>
